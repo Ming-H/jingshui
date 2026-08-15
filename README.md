@@ -1,6 +1,6 @@
-# 静水 (jingshui) 📈 — 投资理财指导 Skill
+# 静水 (jingshui) 📈 — 选股方法论 + 财报分析 Skill
 
-> A Claude Code Skill that distills the investment methodology of Zhihu professional investor **静水2008** into an actionable knowledge framework. / 体系化提炼职业投资人「静水2008」投资方法论的 Claude Code 技能。
+> A Claude Code Skill that distills the investment methodology of Zhihu professional investor **静水2008** into an actionable knowledge framework, plus a financial-report analysis workflow modeled on his report-reading series. / 体系化提炼职业投资人「静水2008」的选股方法论,并复刻其「财报记录」系列的单标的财报分析框架。
 
 <p align="center">
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
@@ -13,11 +13,14 @@
 
 ## 📖 项目简介
 
-这是一个 [Claude Code](https://claude.com/claude-code) 技能（Skill）。安装后，当你向 Claude 询问股票投资、选股、买卖时机、仓位、投资学习路径、普通人理财等问题时，Claude 会自动调用本技能，按一套结构化的投资框架作答。
+这是一个 [Claude Code](https://claude.com/claude-code) 技能（Skill），包含**两大功能**：
 
-框架提炼自知乎职业投资人 **静水2008**（主页 [zhihu.com/people/ban-ma-ban-ma-30-2](https://www.zhihu.com/people/ban-ma-ban-ma-30-2)，约 7.3 万粉丝、11.9 万赞同）的 192 条公开回答 + 4 篇专栏文章。
+- **功能一 · 选股方法论**：向 Claude 询问股票投资、选股、买卖时机、仓位、投资学习路径、普通人理财等问题时，Claude 按一套结构化的投资框架作答。
+- **功能二 · 财报分析**：给定公司名 / 代码或财报 PDF（如"用静水的方法分析药明康德中报"），Claude 按静水「财报记录」系列的六段式框架产出分析报告，并用筛选清单给出"过 / 不过"结论。数据获取可联动 `cninfo-disclosure`（下载财报正本）、`hithink-finance-query`（增速验证）等技能。
 
-**它不是 196 篇原文的堆砌**，而是把散落的内容提炼为可执行的体系：核心理念、术语、选股方法论、识别清单、买卖纪律、周期仓位思维、雷区、学习书单。
+框架提炼自知乎职业投资人 **静水2008**（主页 [zhihu.com/people/ban-ma-ban-ma-30-2](https://www.zhihu.com/people/ban-ma-ban-ma-30-2)，约 7.7 万粉丝、12.6 万赞同）的 196 条公开回答 + 6 篇专栏文章（含 4 篇财报记录系列）。
+
+**它不是 202 篇原文的堆砌**，而是把散落的内容提炼为可执行的体系：核心理念、术语、选股方法论、识别清单、买卖纪律、周期仓位思维、雷区、学习书单，以及单标的财报分析的执行模板。
 
 ---
 
@@ -47,10 +50,14 @@
 
 ```
 jingshui/
-├── SKILL.md        # 主文件：完整投资知识体系 + Claude 应用指南
-├── 原文索引.md      # 196 条内容的元数据目录（摘要/赞数/时间/原文链接）
+├── SKILL.md        # 主文件：功能路由 + 选股方法论体系 + Claude 应用指南
+├── references/
+│   ├── 财报分析框架.md   # 功能二：六段式模板 + 分析口径 + 数据获取工作流
+│   └── 财报范例/        # 静水 4 篇财报记录原文（few-shot 范例）
+├── 原文索引.md      # 202 条内容的元数据目录（摘要/赞数/时间/原文链接）
 ├── scripts/
 │   └── build_collection.py  # 从 MediaCrawler JSON 重建「原文索引.md」+ 全文合集
+├── docs/plans/     # 设计文档
 ├── README.md       # 本文件
 └── LICENSE         # MIT
 ```
@@ -73,10 +80,12 @@ cp -r jingshui ~/.claude/skills/
 安装后直接对 Claude 提问即可，Claude 会自动识别并调用：
 
 ```
-用静水的体系，普通人该怎么开始理财？
+用静水的体系，普通人该怎么开始理财？          # → 功能一：选股方法论
 怎么找到超级成长股？
 财报季该重点看什么？
 什么时候该卖出？
+用静水的方法分析一下药明康德的中报           # → 功能二：财报分析
+帮我按静水框架分析 002XXX 的业绩预告，PDF 在 ~/Downloads/xxx.pdf
 ```
 
 ---
